@@ -199,7 +199,7 @@ while True:
                 alert = 'USA'
                 #推送钉钉
                 #xiaoding.send_text(msg=content,is_auto_at=True)
-                title_msg = '【每日黑天鹅监控结果 — %s】'%(alert)
+                title_msg = '【每日黑天鹅监控 — %s】'%(alert)
                 text_msg = '从%s到%s,该地址所有BTC余额无变化。'%(last_time,now_time_2)
                 msg_url = 'https://www.oklink.com/'
                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
@@ -207,7 +207,7 @@ while True:
                 alert = 'USA'
                 #推送钉钉
                 #xiaoding.send_text(msg=content,is_auto_at=True)
-                title_msg = '【每日黑天鹅监控结果 — %s】'%(alert)
+                title_msg = '【每日黑天鹅监控 — %s】'%(alert)
                 text_msg = '从%s到%s,该地址余额增加%s个BTC。'%(last_time,now_time_2,str(round(now_value_us-last_value_1,2)))
                 msg_url = 'https://www.oklink.com/'
                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
@@ -226,7 +226,7 @@ while True:
                 alert = 'GOX'
                 #推送钉钉
                 #xiaoding.send_text(msg=content,is_auto_at=True)
-                title_msg = '【每日黑天鹅监控结果 — %s】'%(alert)
+                title_msg = '【每日黑天鹅监控 — %s】'%(alert)
                 text_msg = '从%s到%s,该地址余额无变化。'%(last_time,now_time_2)
                 msg_url = 'https://www.oklink.com/cn/btc/address/1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF'
                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
@@ -235,8 +235,8 @@ while True:
                 alert = 'GOX'
                 #推送钉钉
                 #xiaoding.send_text(msg=content,is_auto_at=True)
-                title_msg = '【每日黑天鹅监控结果 — %s】'%(alert)
-                text_msg = '从%s到%s,该地址余额增加%s个BTC。'%(last_time,now_time_2,str(round(now_value_gox-last_value_2)))
+                title_msg = '【每日黑天鹅监控 — %s】'%(alert)
+                text_msg = '从%s到%s,该地址余额增加%s个BTC。'%(last_time,now_time_2,str(round(now_value_gox-last_value_2,2)))
                 msg_url = 'https://www.oklink.com/cn/btc/address/1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF'
                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')  
 
