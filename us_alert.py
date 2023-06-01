@@ -43,6 +43,7 @@ while True:
                     df_group = df.groupby(['address'],as_index=False)['value'].sum()
                     #print(df_group)
                     sub_df_group = df_group[df_group.address == sub_address]
+                    now_time_1 = str(datetime.datetime.now())[0:19]
                     if len(sub_df_group)==1:
                         #读取文件，看是否已经报过
                         alter_df = pd.read_csv('pending_alter.csv')
@@ -53,22 +54,21 @@ while True:
                         if len(sub_alter_df) == 0:
                             sub_df_group = sub_df_group.reset_index(drop=True)
                             value = sub_df_group['value'][0]
-                            print('开始余额报警'+str(sub_type))
                             if sub_type == 1:
-                                alert = 'USA政府'
+                                alert = 'USA政府持币地址'
                                 #推送钉钉
                                 #xiaoding.send_text(msg=content,is_auto_at=True)
                                 title_msg = '【警报 — %s】'%(alert)
-                                text_msg = 'USA政府BTC地址有%s个BTC正在转出,点击链接查看。'%(value)
+                                text_msg = '北京时间%s该地址有%s个BTC正在转出【pending】,点击链接查看。'%(now_time_1,value)
 
                                 msg_url = 'https://www.oklink.com/cn/btc/address/' + sub_address
                                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
                             else:
-                                alert = '疑似门头沟'
+                                alert = '疑似门头沟持币地址'
                                 #推送钉钉
                                 #xiaoding.send_text(msg=content,is_auto_at=True)
                                 title_msg = '【警报 — %s】'%(alert)
-                                text_msg = '疑似门头沟关联BTC地址有%s个BTC正在转出,点击链接查看。'%(value)
+                                text_msg = '北京时间%s该地址有%s个BTC正在转出【pending】,点击链接查看。'%(now_time_1,value)
 
                                 msg_url = 'https://www.oklink.com/cn/btc/address/' + sub_address
                                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
@@ -104,28 +104,27 @@ while True:
                     pre_data['date'] = pd.to_datetime(pre_data['date'])
                     pre_data = pre_data.sort_values(by='date')
                     pre_data = pre_data.reset_index(drop=True)
-                    change = now_value - pre_data['value'][len(pre_data)-1] 
-                    if change != 0:
-                        print(change)
+                    change = round(now_value - pre_data['value'][len(pre_data)-1],2)
+                    now_time = str(datetime.datetime.now())[0:19]
                     #有btc转出时，余额变少了
                     if change < 0:
                         if sub_type == 1:
-                            alert = 'USA政府'
+                            alert = 'USA政府持币地址'
                             #推送钉钉
                             #xiaoding.send_text(msg=content,is_auto_at=True)
                             title_msg = '【警报 — %s】'%(alert)
-                            text_msg = 'USA政府BTC地址有%s个BTC转出,点击链接查看。'%(str(-change))
+                            text_msg = '北京时间%s该地址有%s个BTC转出,点击链接查看。'%(now_time,str(-change))
 
                             msg_url = 'https://www.oklink.com/cn/btc/address/' + sub_address
                             xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
 
 
                         else:
-                            alert = '疑似门头沟'
+                            alert = '疑似门头沟持币地址'
                             #推送钉钉
                             #xiaoding.send_text(msg=content,is_auto_at=True)
                             title_msg = '【警报 — %s】'%(alert)
-                            text_msg = '疑似门头沟关联BTC地址有%s个BTC转出,点击链接查看。'%(str(-change))
+                            text_msg = '北京时间%s该地址有%s个BTC转出,点击链接查看。'%(now_time,str(-change))
 
                             msg_url = 'https://www.oklink.com/cn/btc/address/' + sub_address
                             xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
@@ -135,20 +134,20 @@ while True:
                     #有btc转入时，余额变多了    
                     elif change > 1:
                         if sub_type == 1:
-                            alert = 'USA政府'
+                            alert = 'USA政府持币地址'
                             #推送钉钉
                             #xiaoding.send_text(msg=content,is_auto_at=True)
                             title_msg = '【警报 — %s】'%(alert)
-                            text_msg = 'USA政府BTC地址有%s个BTC转入,点击链接查看。'%(str(change))
+                            text_msg = '北京时间%s该地址有%s个BTC转入,点击链接查看。'%(now_time,str(change))
                             msg_url = 'https://www.oklink.com/cn/btc/address/' + sub_address
                             xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
 
                         else:
-                            alert = '疑似门头沟'
+                            alert = '疑似门头沟持币地址'
                             #推送钉钉
                             #xiaoding.send_text(msg=content,is_auto_at=True)
                             title_msg = '【警报 — %s】'%(alert)
-                            text_msg = '疑似门头沟关联BTC地址有%s个BTC转入,点击链接查看。'%(str(change))
+                            text_msg = '北京时间%s该地址有%s个BTC转入,点击链接查看。'%(now_time,str(change))
 
                             msg_url = 'https://www.oklink.com/cn/btc/address/' + sub_address
                             xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
@@ -184,6 +183,7 @@ while True:
         alter_df = pd.read_csv('yue_alert.csv')
         alter_df['time'] = alter_df['date'].apply(lambda x:str(x)[0:13])
         sub_alter_df_1 = alter_df[(alter_df.address=='us') &(alter_df.time==date_now[0:13])] 
+        now_time_2 = str(datetime.datetime.now())[0:19]
         if len(sub_alter_df_1) == 0:
             now_value_us = np.sum(tot_values[0:len(addresses)-1])
             sub_alter_df_2 = alter_df[(alter_df.address=='us')]
@@ -192,21 +192,23 @@ while True:
             sub_alter_df_2 = sub_alter_df_2.reset_index(drop=True)
 
             last_time = sub_alter_df_2['date'][len(sub_alter_df_2)-1]
-            last_value = sub_alter_df_2['total'][len(sub_alter_df_2)-1]
-            if now_value_us - last_value == 0:
-                alert = 'USA政府'
+            last_value_1 = sub_alter_df_2['total'][len(sub_alter_df_2)-1]
+            
+
+            if now_value_us - last_value_1 == 0:
+                alert = 'USA'
                 #推送钉钉
                 #xiaoding.send_text(msg=content,is_auto_at=True)
-                title_msg = '【监控结果 — %s】'%(alert)
-                text_msg = '目前USA政府掌控所有BTC地址余额无变化。'
+                title_msg = '【每日黑天鹅监控结果 — %s】'%(alert)
+                text_msg = '从%s到%s,该地址所有BTC余额无变化。'%(last_time,now_time_2)
                 msg_url = 'https://www.oklink.com/'
                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
             else:
-                alert = 'USA政府'
+                alert = 'USA'
                 #推送钉钉
                 #xiaoding.send_text(msg=content,is_auto_at=True)
-                title_msg = '【监控结果 — %s】'%(alert)
-                text_msg = '目前USA政府掌控所有BTC地址余额增加%s个BTC。'%(str(now_value_us-last_value))
+                title_msg = '【每日黑天鹅监控结果 — %s】'%(alert)
+                text_msg = '从%s到%s,该地址余额增加%s个BTC。'%(last_time,now_time_2,str(round(now_value_us-last_value,2)))
                 msg_url = 'https://www.oklink.com/'
                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
 
@@ -219,22 +221,22 @@ while True:
             sub_alter_df_4 = sub_alter_df_4.reset_index(drop=True)
 
             last_time = sub_alter_df_4['date'][len(sub_alter_df_4)-1]
-            last_value = sub_alter_df_4['total'][len(sub_alter_df_4)-1]
-            if now_value_gox - last_value == 0:
-                alert = '疑似门头沟'
+            last_value_2 = sub_alter_df_4['total'][len(sub_alter_df_4)-1]
+            if now_value_gox - last_value_2 == 0:
+                alert = 'GOX'
                 #推送钉钉
                 #xiaoding.send_text(msg=content,is_auto_at=True)
-                title_msg = '【监控结果 — %s】'%(alert)
-                text_msg = '疑似门头沟关联BTC地址余额无变化。'
+                title_msg = '【每日黑天鹅监控结果 — %s】'%(alert)
+                text_msg = '从%s到%s,该地址余额无变化。'%(last_time,now_time_2)
                 msg_url = 'https://www.oklink.com/cn/btc/address/1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF'
                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')
 
             else:
-                alert = '疑似门头沟'
+                alert = 'GOX'
                 #推送钉钉
                 #xiaoding.send_text(msg=content,is_auto_at=True)
-                title_msg = '【监控结果 — %s】'%(alert)
-                text_msg = '疑似门头沟关联BTC地址余额增加%s个BTC。'%(str(now_value_gox-last_value))
+                title_msg = '【每日黑天鹅监控结果 — %s】'%(alert)
+                text_msg = '从%s到%s,该地址余额增加%s个BTC。'%(last_time,now_time_2,str(round(now_value_gox-last_value)))
                 msg_url = 'https://www.oklink.com/cn/btc/address/1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF'
                 xiaoding.send_link(title=title_msg, text=text_msg, message_url=msg_url ,pic_url= 'http://ruusug320.hn-bkt.clouddn.com/oklink_1.jpg')  
 
